@@ -1,0 +1,52 @@
+1. Print all lines containing the string San .
+#The grep command prints all lines from a file or files that contain a specified pattern.
+#This command tells the computer to print all lines that contain "San".
+grep 'San' datebook
+
+2. Print all lines where the person's first name starts with J .
+#This tells the computer to print all lines that begin with an upper case j.
+#The ^ tells the computer to only look for the pattern at the beginning of the line.
+grep '^J' datebook
+ 
+3. Print all lines ending in 700 .
+#The character "$" tells the computer that the pattern we're looking for is at the end of the line.
+#This one wasn't working. After doing some searching, I was recommended to run the command 'dos2unix datebook'. After that, it worked.
+grep '700$' datebook
+
+4. Print all lines that don't contain 834 .
+#The -v option tells the computer to print only lines where the pattern does not match.
+grep -v -e '834' datebook
+
+5. Print all lines where birthdays are in December .
+#The -E option tells the computer to use extended regular expressions.
+#The [0-9]+ tells the computer to look for numbers but for no given amount of characters.
+#The next thing it looks for /12.
+#Finally the computer looks for [0-9]+ again. 
+grep -E ':[0-9]+\/12\/[0-9]+' datebook
+
+6. Print all lines where the phone number is in the 408 area code.
+#All phone numbers follow the same pattern. We can use this to tell the computer what pattern to look for. Using [0-9]{3} tells the computer to look for exactly three characters each falling in the range 0-9. After that, [0-9]{4} does the same thing, but for a string of four characters.
+#Since all phone numbers begin and end with :, we can tell the computer to look for a pattern that starts and ends with:.
+grep -E ':408-[0-9]{3}-[0-9]{4}:' datebook
+
+7. Print all lines containing an uppercase letter, followed by four lowercase letters , a comma, a space, and one uppercase letter.
+#The [A-Z] tells the computer to look for any uppercase letter
+#The [a-z]\{4\} tells the computer to look for a string of four lowercase letters.
+grep '[A-Z][a-z]\{4\}, [A-Z]' datebook
+
+8. Print lines where the last name begins with K or k .
+#The \< indicates a word begins and then \> indicates the end of that word.
+#The . tells the computer that any character can be here and the * states that it can be a string of any size.
+#The end of the second word does not matter, only the beginning. We use \< to tell the computer to look at the begin of the second word. (K|k) tells the computer it can be either an upper or lowercase k.
+grep -E '\<.*\>[\t ]\<(K|k)' datebook
+
+9. Print lines preceded by a line number where the salary is a six-figure number.
+#Same idea as number 6, but at the end of the line.
+#The -n option tells the computer to print the line number at the start.
+grep -n '[0-9]\{6\}$' datebook
+
+10. Print lines containing Lincoln or lincoln (remember that grep is insensitive to case).
+#The [Ll] tells the computer to look for either L or l. It will look for any one character between those brackets.
+grep '[Ll]incoln' datebook
+
+I found most of the answers in Linux Pocket Guide
